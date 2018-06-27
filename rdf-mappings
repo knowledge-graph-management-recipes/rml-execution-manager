@@ -1,0 +1,91 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#>.
+@prefix rml: <http://semweb.mmlab.be/ns/rml#>.
+@prefix ql: <http://semweb.mmlab.be/ns/ql#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix schema: <http://schema.org/>.
+@prefix wgs84_pos: <http://www.w3.org/2003/01/geo/wgs84_pos#lat>.
+@prefix gn: <http://www.geonames.org/ontology#>.
+@prefix edsa: <http://www.edsa-project.eu/edsa#>.
+@prefix sdo: <http://schema.org/>.
+
+<#SkillMapping>
+
+    rml:logicalSource [
+		rml:source "file.json";
+		rml:referenceFormulation ql:JSONPath;
+		rml:iterator "$..requiredSkills.*"
+    ];
+
+    rr:subjectMap [
+        rr:template "http://www.edsa-project.eu/skill/{$.name}";
+        rr:class edsa:Skill
+    ].
+
+<#JobPostMapping>
+  rml:logicalSource [
+    rml:source "file.json";
+    rml:referenceFormulation ql:JSONPath;
+    rml:iterator "$.results"
+  ];
+
+  rr:subjectMap [
+    rr:template "http://www.edsa-project.eu/jobpost/{$.uri}";
+    rr:class edsa:JobPosting 
+  ];
+  
+  rr:predicateObjectMap [
+    rr:predicate sdo:description;
+    rr:objectMap [
+      rml:reference "$.description" 
+    ]
+  ];
+  
+  rr:predicateObjectMap [
+    rr:predicate sdo:jobTitle;
+    rr:objectMap [
+      rml:reference "$.title" 
+    ]
+  ];
+  
+  rr:predicateObjectMap [
+    rr:predicate sdo:datePosted;
+    rr:objectMap [
+      rml:reference "$.date";
+	  rr:datatype xsd:dateTime	
+    ]
+  ];
+  
+  rr:predicateObjectMap [
+    rr:predicate sdo:hiringOrganization;
+    rr:objectMap [
+      rml:reference "$.forOrganization.title";
+    ]
+  ];
+  
+  rr:predicateObjectMap [
+    rr:predicate sdo:jobLocation;
+    rr:objectMap [
+      rml:reference "$.inLocation.name";
+    ]
+  ];
+  
+  rr:predicateObjectMap [
+    rr:predicate sdo:source;
+    rr:objectMap [
+      rml:reference "$.foundIn.name";
+    ]
+  ];
+
+  rr:predicateObjectMap [
+      rr:predicate edsa:country;
+      rr:objectMap [
+          rml:reference "$.inCountry.name";
+      ]
+  ];
+
+  rr:predicateObjectMap [
+        rr:predicate edsa:requiredSkill;
+        rr:objectMap [
+            rr:parentTriplesMap  <#SkillMapping>;
+        ]
+    ].
