@@ -4,8 +4,8 @@ Allows you to run RML mapping transformation on a folder containing JSON files
 ## Pre-requisites
 You need the following element
 
-* Java 8
-* SBT
+* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [SBT](https://www.scala-sbt.org) 
 
 ## Configuring the transformation process
 You need to execute the following configuration steps before running the transformation process:
