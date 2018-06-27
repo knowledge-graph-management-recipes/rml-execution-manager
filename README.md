@@ -4,7 +4,7 @@ Allows you to run RML mapping transformation on a folder containing JSON files
 ## Pre-requisites
 You need the following element
 
-* Java VM 8.0
+* Java 8
 * SBT
 
 ## Configuring the transformation process
